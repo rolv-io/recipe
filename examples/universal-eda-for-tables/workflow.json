@@ -1,0 +1,192 @@
+{
+  "id": "universal-eda-for-tables",
+  "nodes": [
+    {
+      "id": "node_11",
+      "name": "Input Data",
+      "description": "Binding node for the user-provided input dataset file and optional workflow parameters. The platform supplies INPUT_FILE and optional ID_COLUMN or color_by values here.",
+      "kind": "manual",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "data_input",
+      "bindings": {
+        "INPUT_FILE": {
+          "value": "",
+          "description": "Path to the input table (csv, tsv, parquet, rds, …). Compute nodes read this key from input.json."
+        },
+        "ID_COLUMN": {
+          "value": "",
+          "description": "Optional id/key column name."
+        }
+      }
+    },
+    {
+      "id": "data_output",
+      "name": "Data Output",
+      "description": "This will be automatically populated as the workflow runs.",
+      "kind": "manual",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "data_output"
+    },
+    {
+      "id": "node_2",
+      "name": "Import Normalize",
+      "description": "Reads the file specified in INPUT_FILE, automatically detects delimiter and header rows, skips non‑header lines, loads the data with fread, cleans column names, trims whitespace, converts common missing markers to NA, and writes the sanitized data and provenance metadata.",
+      "kind": "script",
+      "path": "template_code/import_normalize.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "self_correct": false,
+      "node_type": "compute"
+    },
+    {
+      "id": "node_3",
+      "name": "EDA Summary",
+      "description": "Generate a basic quality-control summary including dimensions, column types, missingness, and duplicated rows. Summary artifacts are written as CSV, JSON, and text for reporting.",
+      "kind": "script",
+      "path": "template_code/eda_summary.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    },
+    {
+      "id": "node_4",
+      "name": "Missingness Plot",
+      "description": "Create the missingness profile using the provided miss_var_summary workflow. The plot is saved only when there is at least one column in the dataset.",
+      "kind": "script",
+      "path": "template_code/missingness_plot.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    },
+    {
+      "id": "node_5",
+      "name": "Numeric Plots",
+      "description": "Loads the sanitized data, selects numeric columns, optionally keeps the 20 most variable columns when there are more than 10, and creates faceted histograms with density curves. The plot title is updated to indicate when the most‑variable‑20 subset is used, and the figure is saved as PNG and RDS.",
+      "kind": "script",
+      "path": "template_code/numeric_plots.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    },
+    {
+      "id": "node_6",
+      "name": "Categorical Plots",
+      "description": "Creates a faceted bar chart of the most frequent categories for each character/factor column. If more than 15 variables are present, it limits the plot to the top 15 variables by total count and updates the title accordingly.",
+      "kind": "script",
+      "path": "template_code/categorical_plots.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    },
+    {
+      "id": "node_7",
+      "name": "Correlation Plot",
+      "description": "Reads the sanitized dataset, computes pairwise Pearson correlations among numeric columns, and generates a heatmap. If more than ten numeric variables are present, axis text is rendered smaller and cell value labels are omitted. The plot is saved as a PNG and the ggplot object is stored as an RDS file.",
+      "kind": "script",
+      "path": "template_code/correlation_plot.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    },
+    {
+      "id": "node_8",
+      "name": "PCA Plot",
+      "description": "Loads the sanitized data, optionally colors points by a user‑specified column, performs PCA on numeric columns, and saves both a PNG of the first two components and the ggplot object. Writes a status file if insufficient numeric data are available.",
+      "kind": "script",
+      "path": "template_code/pca_plot.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    },
+    {
+      "id": "node_9",
+      "name": "EDA Dashboard",
+      "description": "Loads any available EDA plot artifacts, merges them with patchwork, saves a static PNG and RDS, then converts the combined plot to a Plotly interactive object and writes a self‑contained HTML dashboard.",
+      "kind": "script",
+      "path": "template_code/eda_dashboard.R",
+      "language": "r",
+      "expects": [],
+      "produces": [],
+      "is_core": false,
+      "troubleshooting_policy": "normal",
+      "node_type": "compute"
+    }
+  ],
+  "edges": [
+    {
+      "from": "node_2",
+      "to": "node_3"
+    },
+    {
+      "from": "node_2",
+      "to": "node_4"
+    },
+    {
+      "from": "node_2",
+      "to": "node_5"
+    },
+    {
+      "from": "node_2",
+      "to": "node_6"
+    },
+    {
+      "from": "node_2",
+      "to": "node_7"
+    },
+    {
+      "from": "node_2",
+      "to": "node_8"
+    },
+    {
+      "from": "node_8",
+      "to": "node_9"
+    },
+    {
+      "from": "node_7",
+      "to": "node_9"
+    },
+    {
+      "from": "node_6",
+      "to": "node_9"
+    },
+    {
+      "from": "node_5",
+      "to": "node_9"
+    },
+    {
+      "from": "node_4",
+      "to": "node_9"
+    },
+    {
+      "from": "node_11",
+      "to": "node_2"
+    }
+  ]
+}
