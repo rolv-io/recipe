@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="https://rolv.io">
-    <img src="assets/logo.svg" width="80" height="80" alt="Rolv Logo" />
+    <img src="assets/logo.svg" width="400" height="400" alt="Rolv Logo" />
   </a>
 </p>
 <h1 align="center">Rolv Recipe Specification & Authoring Guide</h1>
@@ -34,7 +34,7 @@ flowchart LR
     B["🗺️ workflow.json\n(Visual DAG Topology)"] --> E
     C["🔒 env/\n(Hermetic Manifests)"] --> E
     D["💻 template_code/\n(Isolated Scripts)"] --> E
-    E --> F["🚀 100% Reproducible Execution\n(Local or Slurm/HPC)"]
+    E --> F["🚀 100% Reproducible Execution\n(Local or Remote execution)"]
     
     style E fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#fff
     style F fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
