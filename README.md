@@ -1,3 +1,45 @@
+
+<p align="center">
+  <a href="https://rolv.io">
+    <img src="assets/logo.svg" width="80" height="80" alt="Rolv Logo" />
+  </a>
+</p>
+<h1 align="center">Rolv Recipe Specification & Authoring Guide</h1>
+<p align="center">
+  <strong>Self-contained, reproducible, agent-ready analytical workflows for life sciences & computational biology.</strong>
+</p>
+
+<p align="center">
+  <a href="https://rolv.io"><img src="https://img.shields.io/badge/platform-Rolv_Agentic-emerald?style=flat-square&logo=electron" alt="Platform" /></a>
+  <a href="https://github.com/rolv-io/recipe/tree/main/examples"><img src="https://img.shields.io/badge/examples-browse_blueprints-blue?style=flat-square&logo=github" alt="Examples" /></a>
+  <img src="https://img.shields.io/badge/runtimes-R_•_Python_•_Bash-purple?style=flat-square" alt="Runtimes" />
+  <img src="https://img.shields.io/badge/reproducibility-process--isolated-orange?style=flat-square" alt="Reproducibility" />
+</p>
+
+---
+
+> [!NOTE]
+> A **Recipe** is a versioned, portable scientific workflow package. It encapsulates visual DAG topology, isolated scripts, hermetic environment locks, and operational troubleshooting knowledge.
+> 
+<p align="center">
+  👉 <strong><a href="https://github.com/rolv-io/recipe/tree/main/examples">Explore an example recipes in the repository →</a></strong>
+</p>
+
+---
+
+### 🧬 The Anatomy of a Recipe
+```mermaid
+flowchart LR
+    A["📄 recipe.md\n(RAG Context & Specs)"] --> E["📦 Portable Recipe Package"]
+    B["🗺️ workflow.json\n(Visual DAG Topology)"] --> E
+    C["🔒 env/\n(Hermetic Manifests)"] --> E
+    D["💻 template_code/\n(Isolated Scripts)"] --> E
+    E --> F["🚀 100% Reproducible Execution\n(Local or Slurm/HPC)"]
+    
+    style E fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#fff
+    style F fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
+```
+
 # Rolv Recipe Specification & Authoring Guide
 
 A **Recipe** is a self-contained, versioned, and reproducible scientific analysis workflow package. It encapsulates data flow (DAG), execution scripts, environment locks, documentation, and troubleshooting knowledge.
