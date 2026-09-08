@@ -5,6 +5,8 @@ A **Recipe** is a self-contained, versioned, and reproducible scientific analysi
 Recipes serve as executable pipelines/workflows on the visual canvas and can be indexed in a **knowledge base** in Rolv’s local and cloud databases.
 Potentially, the recipe format can be adopted by other AI agents as the format resembles skill files. 
 
+An example recipe is here: https://github.com/rolv-io/recipe/tree/main/examples
+
 ---
 
 ## 1. Recipe Package Structure (File Tree)
